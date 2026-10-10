@@ -1,0 +1,34 @@
+{% extends "base.html" %}{% block title %}SkillGap — Know your next step{% endblock %}
+{% block content %}
+<section class="hero public-container">
+  <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR PERSONAL PLACEMENT COMPASS</div>
+    <h1>Know your gaps.<br><span>Own your future.</span></h1>
+    <p class="hero-lead">Turn your current skills into a clear, personalized plan for the role you want. Understand what matters, focus your effort, and track your growth.</p>
+    <div class="hero-actions"><a class="btn btn-primary btn-lg" href="{{ url_for('register') }}">Build my skill profile <span>↗</span></a><a class="btn btn-outline btn-lg" href="{{ url_for('demo_login') }}">Try demo dashboard <span>▷</span></a></div>
+    <div class="trust-row"><div class="mini-avatars"><i>A</i><i>R</i><i>S</i></div><span>Made for students preparing for placements</span></div>
+  </div>
+  <div class="hero-visual">
+    <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+    <div class="floating-chip chip-top"><span class="chip-icon">↗</span><span><b>Clear priorities</b><small>Focus on what matters</small></span></div>
+    <div class="preview-card"><div class="preview-head"><div><small>PLACEMENT READINESS</small><h3>Your skill snapshot</h3></div><span class="live-pill"><i></i> SAMPLE</span></div>
+      <div class="preview-score"><div class="score-ring"><div><b>68</b><small>/100</small></div></div><div><strong>On your way</strong><p>Your next step is clear.</p><span class="tiny-tag">+12% this month</span></div></div>
+      <div class="preview-divider"></div><div class="preview-skill"><div><span>Data Structures & Algorithms</span><b>35%</b></div><div class="meter"><i style="width:35%"></i><em style="left:75%"></em></div><small><span class="priority-dot"></span> Highest-priority gap</small></div>
+      <div class="preview-skill"><div><span>SQL</span><b>50%</b></div><div class="meter"><i style="width:50%"></i><em style="left:65%"></em></div></div>
+      <div class="preview-skill"><div><span>Python</span><b>75%</b></div><div class="meter"><i style="width:75%"></i><em style="left:70%"></em></div></div>
+      <div class="preview-footer"><span>PERSONALIZED ROADMAP</span><b>Week 1 of 4 <span>→</span></b></div>
+    </div>
+    <div class="floating-chip chip-bottom"><span class="chip-check">✓</span><span><b>One step at a time</b><small>Your progress, made visible</small></span></div>
+  </div>
+</section>
+<section class="stats-strip"><div><strong>01</strong><span>Know your skill gaps</span></div><div><strong>02</strong><span>Get a focused roadmap</span></div><div><strong>03</strong><span>Measure your progress</span></div><div class="strip-end">Less guessing.<br><b>More growing.</b></div></section>
+<section class="section public-container" id="features"><div class="section-heading"><div class="eyebrow">BUILT AROUND YOUR GOALS</div><h2>Everything you need to move forward.</h2><p>A practical toolkit to turn placement preparation into manageable, measurable steps.</p></div>
+  <div class="feature-grid">
+    <article class="feature-card"><div class="feature-icon teal">◎</div><h3>Skill-gap analysis</h3><p>Compare your current proficiency with requirements for your chosen role, then see the gaps ranked by priority.</p><span class="feature-index">01 / ANALYZE</span></article>
+    <article class="feature-card"><div class="feature-icon navy">◈</div><h3>Readiness score</h3><p>See a transparent, weighted snapshot of your preparation with component-level detail.</p><span class="feature-index">02 / UNDERSTAND</span></article>
+    <article class="feature-card"><div class="feature-icon mint">↗</div><h3>Personal roadmap</h3><p>Get a focused four-week plan with tasks and estimated effort based on your biggest gap.</p><span class="feature-index">03 / TAKE ACTION</span></article>
+    <article class="feature-card"><div class="feature-icon pale">↻</div><h3>Progress tracking</h3><p>Retake assessments and compare results over time to make improvement visible.</p><span class="feature-index">04 / IMPROVE</span></article>
+  </div>
+</section>
+<section class="role-section" id="how-it-works"><div class="public-container role-layout"><div><div class="eyebrow">YOUR GOAL, YOUR PLAN</div><h2>One clear path.<br><span>Built around you.</span></h2><p>Different roles call for different skills. Start with a target, get an honest snapshot, and focus your energy where it can make the biggest difference.</p><a href="{{ url_for('register') }}" class="text-link">Create your profile <span>→</span></a></div><div class="role-list">{% for role in roles %}<div class="role-item"><div class="role-symbol">{{ loop.index }}</div><div><b>{{ role }}</b><small>{% if role == 'Software Developer' %}Programming · DSA · SQL · Aptitude{% elif role == 'Data Analyst' %}Python · SQL · Statistics · Visualization{% else %}Networking · Linux · Security fundamentals{% endif %}</small></div><span>↗</span></div>{% endfor %}</div></div></section>
+<section class="bottom-cta public-container"><div><div class="eyebrow">START WHERE YOU ARE</div><h2>Your next step starts with a snapshot.</h2><p>No paid AI tools needed. Just your goals, your current skills, and a plan you can follow.</p></div><a class="btn btn-light btn-lg" href="{{ url_for('register') }}">Get started for free <span>↗</span></a></section>
+{% endblock %}

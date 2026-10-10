@@ -1,0 +1,36 @@
+/* Skill Gap Analyzer UI polish — include in the existing base template. */
+:root {
+  --sg-bg: #f4f7fb; --sg-surface: #fff; --sg-text: #172033;
+  --sg-muted: #64748b; --sg-primary: #5b5ce2; --sg-accent: #14b8a6;
+  --sg-border: rgba(100,116,139,.18); --sg-shadow: 0 16px 42px rgba(27,39,94,.09);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--sg-bg); color: var(--sg-text); }
+.card, .panel, .stat-card, .dashboard-card, .form-card {
+  border: 1px solid var(--sg-border); border-radius: 18px;
+  box-shadow: var(--sg-shadow); transition: transform .22s ease, box-shadow .22s ease;
+}
+.card:hover, .panel:hover, .stat-card:hover, .dashboard-card:hover {
+  transform: translateY(-3px); box-shadow: 0 20px 48px rgba(27,39,94,.13);
+}
+button, .btn, input[type="submit"] {
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+button:hover, .btn:hover, input[type="submit"]:hover {
+  transform: translateY(-1px); filter: brightness(1.03);
+}
+input, select, textarea {
+  border-radius: 10px; border: 1px solid #dbe2ee; transition: border-color .18s, box-shadow .18s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--sg-primary); box-shadow: 0 0 0 4px rgba(91,92,226,.13);
+}
+.progress-bar, .progress-fill { transition: width .7s cubic-bezier(.2,.8,.2,1); }
+.reveal { animation: sg-rise .5s both; }
+.reveal:nth-child(2) { animation-delay: .06s; }
+.reveal:nth-child(3) { animation-delay: .12s; }
+.reveal:nth-child(4) { animation-delay: .18s; }
+@keyframes sg-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

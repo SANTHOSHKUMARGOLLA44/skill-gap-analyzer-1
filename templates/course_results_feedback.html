@@ -1,0 +1,18 @@
+{# Add to course_results.html where the score/results are displayed. #}
+{% if result.feedback %}
+<section class="card feedback-card reveal" aria-labelledby="feedback-title">
+  <h2 id="feedback-title">Assessment feedback</h2>
+  <p>{{ result.feedback.summary }}</p>
+  <p><strong>Recommended next step:</strong> {{ result.feedback.next_step }}</p>
+  {% if result.feedback.strengths %}
+    <h3>Strengths</h3>
+    <ul>{% for skill in result.feedback.strengths %}<li>{{ skill }}</li>{% endfor %}</ul>
+  {% endif %}
+  {% if result.feedback.focus_skills %}
+    <h3>Skills to focus on</h3>
+    <ul>{% for skill in result.feedback.focus_skills %}<li>{{ skill }}</li>{% endfor %}</ul>
+  {% endif %}
+  <h3>Action plan</h3>
+  <ul>{% for item in result.feedback.recommendations %}<li>{{ item }}</li>{% endfor %}</ul>
+</section>
+{% endif %}

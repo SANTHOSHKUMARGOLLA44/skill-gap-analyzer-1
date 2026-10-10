@@ -1,0 +1,134 @@
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='roadmap.css') }}"
+>
+
+<section class="roadmap-page">
+
+    <header class="roadmap-intro">
+        <h1>Learning Roadmap</h1>
+
+        <p>
+            Your syllabus is tailored to your selected role:
+            <strong>{{ student.target_role }}</strong>.
+        </p>
+
+        <div
+            class="roadmap-progress"
+            aria-label="Roadmap completion"
+        >
+            <span style="width: {{ progress_pct }}%"></span>
+        </div>
+
+        <p>{{ progress_pct }}% completed</p>
+    </header>
+
+    {% if tasks %}
+
+        {% for week_number, week_tasks in
+            tasks|groupby('week_number') %}
+
+            <details
+                class="roadmap-week"
+                {% if loop.first %}open{% endif %}
+            >
+                <summary>
+                    <span>Week {{ week_number }}</span>
+
+                    <span>
+                        {{ week_tasks|length }}
+                        learning module(s)
+                    </span>
+                </summary>
+
+                <div class="roadmap-week-body">
+
+                    {% for task in week_tasks %}
+
+                        <article class="roadmap-module">
+
+                            <h3>{{ task.title }}</h3>
+
+                            <div class="roadmap-topic-list">{{ task.description }}</div>
+
+                            <div class="roadmap-task-meta">
+
+                                <span>
+                                    Skill: {{ task.skill_name }}
+                                </span>
+
+                                <span>
+                                    Priority: {{ task.priority }}
+                                </span>
+
+                                <span>
+                                    Estimated time:
+                                    {{ task.estimated_hours }} hours
+                                </span>
+
+                                {% if task.completed %}
+                                    <span class="roadmap-done">
+                                        Completed
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="roadmap-task-actions">
+
+                                <form
+                                    method="post"
+                                    action="{{ url_for(
+                                        'toggle_task',
+                                        task_id=task.id
+                                    ) }}"
+                                >
+                                    <button
+                                        class="roadmap-button"
+                                        type="submit"
+                                    >
+                                        {% if task.completed %}
+                                            Mark as incomplete
+                                        {% else %}
+                                            Mark as completed
+                                        {% endif %}
+                                    </button>
+                                </form>
+
+                            </div>
+
+                        </article>
+
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+            </details>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="roadmap-empty">
+            <h2>Your roadmap is not generated yet</h2>
+
+            <p>
+                Complete a skill assessment first.
+                The app will then generate Week 0 through Week 4
+                according to your selected career role.
+            </p>
+
+            <a
+                class="roadmap-button"
+                href="{{ url_for('assessment') }}"
+            >
+                Start Assessment
+            </a>
+        </div>
+
+    {% endif %}
+
+</section>

@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block title %}Course Analyzer — SkillGap{% endblock %}{% block crumb %}Course Analyzer{% endblock %}{% block content %}
+<div class="page-heading"><div><div class="eyebrow">PERSONALIZED PRACTICE</div><h1>Course Analyzer</h1><p>Choose your target job role and the skills you want to test. We will generate a role-aligned assessment, then analyze your performance.</p></div></div>
+<form method="post" class="panel" style="padding:28px;max-width:900px">
+  <label for="target_role"><strong>1. Target job role</strong></label>
+  <select id="target_role" name="target_role" required style="display:block;width:100%;padding:13px;margin:10px 0 24px;border:1px solid #d7dbea;border-radius:10px">
+    {% for role in roles %}<option value="{{ role }}" {% if role == selected_role %}selected{% endif %}>{{ role }}</option>{% endfor %}
+  </select>
+  <h2>2. Select skills to assess</h2><p class="muted">Select one or more. Each selected skill has a short multiple-choice test.</p>
+  {% for role, skills in skill_options.items() %}<div class="skill-option-group" data-role="{{ role }}" {% if role != selected_role %}hidden{% endif %} style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:18px 0">
+    {% for skill in skills %}<label class="panel" style="padding:14px;display:flex;gap:10px;align-items:center"><input type="checkbox" name="skills" value="{{ skill }}" {% if role == selected_role and skill in selected_skills %}checked{% endif %}> <span>{{ skill }}</span></label>{% endfor %}
+  </div>{% endfor %}
+  <button class="btn btn-primary btn-lg" type="submit">Generate my assessment →</button>
+</form>
+<script>
+const roleSelect = document.getElementById('target_role');
+function syncSkillGroups(){ document.querySelectorAll('.skill-option-group').forEach(group=>{const active=group.dataset.role===roleSelect.value;group.hidden=!active;group.style.display=active?'grid':'none';group.querySelectorAll('input').forEach(input=>{input.disabled=!active;if(!active)input.checked=false;});}); }
+roleSelect.addEventListener('change', syncSkillGroups); syncSkillGroups();
+</script>
+{% endblock %}

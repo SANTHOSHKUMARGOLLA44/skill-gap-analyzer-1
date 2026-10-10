@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#202653">
+  <title>{% block title %}SkillGap — Placement Readiness{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+{% if session.get('student_id') %}
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">S</span><span>skill<span class="brand-light">gap</span><small>PLACEMENT READINESS</small></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <nav class="side-nav">
+      <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' else '' }}"><span>▦</span> Overview</a>
+      <a href="{{ url_for('assessment') }}" class="{{ 'active' if request.endpoint == 'assessment' else '' }}"><span>◉</span> Skill assessment</a>
+      <a href="{{ url_for('course_analyzer') }}" class="{{ 'active' if request.endpoint in ['course_analyzer', 'take_quiz'] else '' }}"><span>✦</span> Course Analyzer</a>
+      <a href="{{ url_for('roadmap') }}" class="{{ 'active' if request.endpoint == 'roadmap' else '' }}"><span>↗</span> Learning roadmap</a>
+      <a href="{{ url_for('projects') }}" class="{{ 'active' if request.endpoint == 'projects' else '' }}"><span>⌘</span> My projects</a>
+      <a href="{{ url_for('certifications') }}" class="{{ 'active' if request.endpoint == 'certifications' else '' }}"><span>✦</span> Certifications</a>
+      <a href="{{ url_for('progress') }}" class="{{ 'active' if request.endpoint == 'progress' else '' }}"><span>↻</span> Progress tracking</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="side-label">ACCOUNT</div>
+      <a href="{{ url_for('profile') }}" class="{{ 'active' if request.endpoint == 'profile' else '' }}"><span>⚙</span> Profile settings</a>
+      <a href="{{ url_for('logout') }}"><span>↪</span> Sign out</a>
+      <div class="sidebar-user"><div class="avatar">{{ (session.get('student_name') or 'S')[0]|upper }}</div><div><strong>Student workspace</strong><small>Personal dashboard</small></div></div>
+    </div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button><div class="crumb">Workspace <span>/</span> {% block crumb %}Overview{% endblock %}</div><div class="topbar-right"><span class="status-dot"></span><span>Progress is saved</span><div class="avatar small-avatar">S</div></div></header>
+    <div class="page-content">
+{% else %}
+<header class="public-nav"><a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">S</span><span>skill<span class="brand-light">gap</span><small>PLACEMENT READINESS</small></span></a><nav><a href="{{ url_for('index') }}#features">Features</a><a href="{{ url_for('index') }}#how-it-works">How it works</a><a href="{{ url_for('login') }}">Sign in</a><a href="{{ url_for('admin_login') }}">Admin</a><a class="btn btn-primary btn-sm" href="{{ url_for('register') }}">Get started <span>↗</span></a></nav></header>
+{% endif %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}<button onclick="this.parentElement.remove()" aria-label="Dismiss">×</button></div>{% endfor %}</div>{% endif %}
+{% endwith %}
+{% block content %}{% endblock %}
+{% if session.get('student_id') %}
+    </div>
+  </main>
+</div>
+{% else %}
+<footer class="public-footer"><a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">S</span><span>skill<span class="brand-light">gap</span><small>PLACEMENT READINESS</small></span></a><span>Make your next step count.</span><span>Built for student growth · © 2026</span></footer>
+{% endif %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body></html>

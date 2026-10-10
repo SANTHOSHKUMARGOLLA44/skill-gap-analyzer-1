@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Create profile — SkillGap{% endblock %}{% block content %}
+<div class="auth-layout"><div class="auth-aside"><div class="eyebrow">A BETTER WAY TO PREPARE</div><h1>Turn your ambition into a plan.</h1><p>Your personalized placement dashboard begins with a few details. You'll be able to track your skills, understand your gaps, and focus on the next right step.</p><div class="auth-benefit"><span>✓</span><div><b>Role-specific insights</b><small>Compare your skills to a target role</small></div></div><div class="auth-benefit"><span>✓</span><div><b>Practical learning plan</b><small>Weekly tasks, not vague advice</small></div></div><div class="auth-benefit"><span>✓</span><div><b>Your progress in one place</b><small>Save assessments and see improvement</small></div></div></div>
+<div class="auth-card"><div class="form-kicker">GET STARTED <span>01 / 02</span></div><h2>Create your profile</h2><p class="muted">Set up your student workspace.</p><form method="post" class="form-stack">
+<label>Full name<input name="full_name" required autocomplete="name" placeholder="e.g. Alex Kumar"></label>
+<label>Email address<input type="email" name="email" required autocomplete="email" placeholder="you@college.edu"></label>
+<label>Password<input type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"><small class="field-help">Use at least 8 characters.</small></label>
+<div class="form-two"><label>College<input name="college" placeholder="College name"></label><label>Branch<input name="branch" placeholder="e.g. CSE"></label></div>
+<div class="form-two"><label>Academic year<select name="academic_year"><option value="">Select year</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label><label>Graduation year<input name="graduation_year" inputmode="numeric" placeholder="2027"></label></div>
+<label>Target placement role<select name="target_role">{% for role in roles %}<option>{{ role }}</option>{% endfor %}</select></label>
+<button class="btn btn-primary btn-full" type="submit">Create my workspace <span>→</span></button></form><p class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p></div></div>
+{% endblock %}

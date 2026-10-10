@@ -1,0 +1,172 @@
+
+{% extends "base.html" %}
+
+{% block title %}Admin monitoring — SkillGap{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">ADMIN CONSOLE</div>
+        <h1>Platform monitoring</h1>
+        <p>
+            Signed in as {{ admin_email }}.
+            This page summarizes usage and recent assessment activity.
+        </p>
+    </div>
+    <a class="btn btn-secondary" href="{{ url_for('admin_logout') }}">
+        Sign out
+    </a>
+</div>
+
+<!-- Platform statistics -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px">
+    {% for label, value in [
+        ('Registered students', stats.students),
+        ('Skill assessments', stats.assessments),
+        ('Course Analyzer attempts', stats.quiz_attempts),
+        ('Student projects', stats.projects)
+    ] %}
+    <div class="panel" style="padding:22px">
+        <small>{{ label }}</small>
+        <h2 style="font-size:30px;margin:8px 0">{{ value }}</h2>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Database reset controls -->
+<div class="panel" style="padding:22px;margin-bottom:22px">
+    <h2>Database management</h2>
+    <p>
+        Clear test data and student records when you want to start fresh.
+        Your administrator account will be preserved.
+    </p>
+
+    <form
+        action="{{ url_for('admin_reset_database') }}"
+        method="POST"
+        onsubmit="return confirm('This will permanently delete student accounts, assessments, quiz attempts, projects and related records. This action cannot be undone. Continue?');"
+    >
+        <label for="confirm_reset">
+            Type <strong>RESET</strong> to confirm:
+        </label>
+
+        <input
+            type="text"
+            id="confirm_reset"
+            name="confirm_reset"
+            placeholder="Type RESET"
+            required
+            autocomplete="off"
+            style="display:block;max-width:300px;margin:10px 0;padding:10px"
+        >
+
+        <button type="submit" class="btn btn-danger">
+            Reset Database
+        </button>
+    </form>
+</div>
+
+<!-- Registered students -->
+<div class="panel" style="padding:22px;margin-bottom:22px">
+    <h2>Registered students</h2>
+
+    <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse">
+            <thead>
+                <tr>
+                    <th align="left">Student</th>
+                    <th align="left">Target role</th>
+                    <th>Skill assessments</th>
+                    <th>Course tests</th>
+                    <th>Latest test</th>
+                    <th align="left">Registered</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td style="padding:12px 8px;border-top:1px solid #e7eaf2">
+                        <b>{{ student.full_name }}</b>
+                        <br>
+                        <small>{{ student.email }}</small>
+                    </td>
+
+                    <td>{{ student.target_role }}</td>
+                    <td align="center">{{ student.assessment_count }}</td>
+                    <td align="center">{{ student.quiz_count }}</td>
+
+                    <td align="center">
+                        {{ (student.latest_quiz_score|string + '%')
+                           if student.latest_quiz_score is not none
+                           else '—' }}
+                    </td>
+
+                    <td>{{ student.created_at[:10] }}</td>
+
+                    <td align="center">
+                        <form
+                            action="{{ url_for('admin_delete_student', student_id=student.id) }}"
+                            method="POST"
+                            onsubmit="return confirm('Permanently delete this student and their associated records?');"
+                        >
+                            <button type="submit" class="btn btn-danger">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">No students registered yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Recent Course Analyzer attempts -->
+<div class="panel" style="padding:22px">
+    <h2>Recent Course Analyzer attempts</h2>
+
+    <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse">
+            <thead>
+                <tr>
+                    <th align="left">Student</th>
+                    <th align="left">Role</th>
+                    <th>Score</th>
+                    <th>Questions</th>
+                    <th align="left">Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for attempt in attempts %}
+                <tr>
+                    <td style="padding:12px 8px;border-top:1px solid #e7eaf2">
+                        {{ attempt.full_name }}
+                        <br>
+                        <small>{{ attempt.email }}</small>
+                    </td>
+                    <td>{{ attempt.target_role }}</td>
+                    <td align="center">{{ attempt.score }}%</td>
+                    <td align="center">{{ attempt.total_questions }}</td>
+                    <td>{{ attempt.created_at[:16] }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">
+                        No Course Analyzer attempts recorded yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

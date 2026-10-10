@@ -1,0 +1,6 @@
+{# Add inside the student row in admin_dashboard.html. #}
+<form method="post"
+      action="{{ url_for('admin_delete_student', student_id=student.id) }}"
+      onsubmit="return confirm('Delete this student and all associated assessment, quiz, project, certification, roadmap and progress data? This cannot be undone.');">
+  <button class="btn btn-danger btn-sm" type="submit">Delete user</button>
+</form>

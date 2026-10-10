@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Assessment test — SkillGap{% endblock %}{% block crumb %}Course Analyzer / Test{% endblock %}{% block content %}
+<div class="page-heading"><div><div class="eyebrow">ASSESSMENT IN PROGRESS</div><h1>{{ role }} test</h1><p>Answer every question. Your score and skill-by-skill feedback will be calculated when you submit.</p><div class="pill">Skills: {{ skills|join(', ') }} · {{ questions|length }} questions</div></div></div>
+<form method="post" class="panel" style="padding:26px">
+{% for question in questions %}<section style="padding:20px 0;border-bottom:1px solid #e7eaf2"><p><strong>{{ loop.index }}. {{ question.q }}</strong></p><p class="muted">Skill: {{ question.skill }}</p><div style="display:grid;gap:10px;margin-top:12px">{% for option in question.options %}<label style="display:flex;gap:10px;align-items:flex-start"><input type="radio" name="answer_{{ question.id }}" value="{{ loop.index0 }}" required><span>{{ option }}</span></label>{% endfor %}</div></section>{% endfor %}
+<div style="margin-top:24px"><button class="btn btn-primary btn-lg" type="submit">Submit test and analyze performance →</button> <a class="btn btn-secondary" href="{{ url_for('course_analyzer') }}">Cancel</a></div>
+</form>{% endblock %}
