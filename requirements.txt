@@ -1,2 +1,13 @@
 Flask>=3.0,<4.0
+<<<<<<< HEAD
 gunicorn
+=======
+Flask
+gunicorn
+Werkzeug
+
+
+>>>>>>> 1bd0f8b81b26d7e3f993eeac35cfef1333f4f9c7
+
+
+
